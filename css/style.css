@@ -15,7 +15,6 @@ body{
 }
 
 
-
 .auth-body{
     display: flex;
     justify-content: center;
@@ -68,7 +67,7 @@ body{
 }
 
 
-input{
+input, textarea{
     padding:12px 14px;
     border:1px solid #d1d5db;
     border-radius: 10px;
@@ -77,7 +76,15 @@ input{
     background:#ffffff;
 }
 
+input:focus, textarea:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,0.12);
+}
 
+textarea{
+    min-height:120px;
+    resize:vertical;
+}
 
 button{
     border:none;
@@ -93,7 +100,8 @@ button:hover{
     transform:translateY(-1px);
 }
 
-.auth-form button{
+.auth-form button,
+.primary-btn{
     background:#2563eb;
     color:#ffffff;
     border:none;
@@ -102,6 +110,9 @@ button:hover{
     font-size:15px;
 }
 
+.primary-btn:hover{
+    background:#1d4ed8;
+}
 
 .auth-switch{
     text-align:center;
@@ -143,6 +154,9 @@ button:hover{
     flex-wrap:wrap;
 }
 
+.active-link{ 
+    text-decoration: underline;
+}
 
 .logout-btn{
     color:#ffffff;
@@ -159,6 +173,19 @@ button:hover{
     width:min(1100px, 92%);
     margin:28px auto;
 }
+
+
+
+.grid-layout{
+    display:grid;
+    grid-template-columns: 2fr 1fr;
+    gap:22px;
+}
+
+.main-feed{
+    min-width:0;
+}
+
 
 .card {
     background:#ffffff;
