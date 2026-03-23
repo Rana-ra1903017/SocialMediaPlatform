@@ -12,7 +12,7 @@
         <nav class="topnav">
             <a href="feed.html">Feed</a>    
             <a href="profile.html" class="active-link">Profile</a> 
-            <button class="logout-btn" >logout</button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
         </nav>
     </header>
 
@@ -20,17 +20,24 @@
         <section class="main-feed">
             <section class="card profile-card">
                 <h2>User Profile</h2>  
+                <div id="profileInfo"></div>
             </section>
 
             <section class="card">
                 <h2 class="section-title">My Posts</h2>
+                <div id="myPosts"></div>
             </section>
         </section>
 
         <aside class="sidebar-card">
             <h3>Other Users</h3>
             <p class="small-text">Follow users to see their posts in your feed.</p>
+             <div id="usersList"></div>
         </aside>
     </main>
+    
+    <script src="js/auth.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/profile.js"></script>
 </body>
 </html>
