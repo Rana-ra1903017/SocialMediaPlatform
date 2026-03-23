@@ -12,10 +12,6 @@ function getCurrentUserData() {
 function getPosts() {
     return JSON.parse(localStorage.getItem("posts")) || [];
 }
-function getCurrentUserData() {
-    return JSON.parse(localStorage.getItem("currentUser"));
-}
-
 function refreshCurrentUser() {
     const currentUser = getCurrentUserData();
     if (!currentUser) return null;
