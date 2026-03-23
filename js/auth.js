@@ -1,7 +1,3 @@
-
-
-
-
 function getCurrentUser() {
     return JSON.parse(localStorage.getItem("currentUser"));
 }
@@ -46,4 +42,30 @@ if (registerForm) {
         alert("Registration completed successfully.");
         window.location = "index.html";
     });
+}
+
+const loginForm = document.getElementById("loginForm");
+if (loginForm) {
+    loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        const email = document.getElementById("email").value.trim().toLowerCase();
+        const password = document.getElementById("password").value.trim();
+
+        const user = users.find(u => u.email === email && u.password === password);
+
+        if (!user) {
+            alert("Invalid email or password.");
+            return;
+        }
+
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        window.location = "feed.html";
+    });
+}
+
+function logout() {
+    localStorage.removeItem("currentUser");
+    window.location = "index.html";
 }
