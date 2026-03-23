@@ -25,3 +25,30 @@ function getFeedPosts() {
     const following = currentUser.following || [];
 
     return posts.filter(post => post.userId === currentUser.id || following.includes(post.userId));
+}
+function createPost() {
+    const postContentElement = document.getElementById("postContent");
+    const content = postContentElement.value.trim();
+
+    if (content === "") {
+        alert("Please write something before posting.");
+        return;
+    }
+
+    const posts = getPosts();
+
+    posts.unshift({
+        id: Date.now(),
+        user: currentUser.username,
+        userId: currentUser.id,
+        content: content,
+        likes: 0,
+        likedBy: [],
+        comments: [],
+        createdAt: new Date().toISOString()
+    });
+
+    savePosts(posts);
+    postContentElement.value = "";
+    displayPosts();
+}
