@@ -102,3 +102,64 @@ function addComment(postId) {
     savePosts(posts);
     displayPosts();
 }
+
+function displayPosts() {
+    currentUser = refreshCurrentUser();
+    const container = document.getElementById("posts");
+    const posts = getFeedPosts();
+
+    container.innerHTML = "";
+
+    if (posts.length === 0) {
+        container.innerHTML = '<p class="empty-text">No posts in your feed yet. Follow users or create your own post.</p>';
+        renderFeedInfo();
+        return;
+    }
+
+    posts.forEach(post => {
+        const commentsHtml = post.comments.length > 0
+            ? post.comments.map(comment => `
+                <div class="comment-item">
+                    <div class="comment-user">${escapeHtml(comment.user)}</div>
+                    <div>${escapeHtml(comment.text)}</div>
+                </div>
+            `).join("")
+            : '<p class="empty-text">No comments yet.</p>';
+
+        const deleteButton = post.userId === currentUser.id
+            ? `<button class="delete-btn" onclick="deletePost(${post.id})">Delete</button>`
+            : "";
+
+        const alreadyLiked = (post.likedBy || []).includes(currentUser.id);
+        const likeLabel = alreadyLiked ? `Liked (${post.likes})` : `Like (${post.likes})`;
+
+        container.innerHTML += `
+            <article class="post">
+                <div class="post-header">
+                    <div class="post-user">${escapeHtml(post.user)}</div>
+                    <div class="post-time">${formatDate(post.createdAt)}</div>
+                </div>
+
+                <div class="post-content">${escapeHtml(post.content)}</div>
+
+                <div class="post-actions">
+                    <button class="like-btn" onclick="likePost(${post.id})">${likeLabel}</button>
+                    <a class="view-btn" href="post.html?id=${post.id}">View Details</a>
+                    ${deleteButton}
+                </div>
+
+                <div class="comment-section">
+                    <div class="comment-form">
+                        <input type="text" id="commentInput-${post.id}" placeholder="Write a comment...">
+                        <button class="comment-btn" onclick="addComment(${post.id})">Comment</button>
+                    </div>
+                    <div class="comment-list">${commentsHtml}</div>
+                </div>
+            </article>
+        `;
+    });
+
+    renderFeedInfo();
+}
+
+displayPosts();
