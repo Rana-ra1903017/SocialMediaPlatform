@@ -52,3 +52,53 @@ function createPost() {
     postContentElement.value = "";
     displayPosts();
 }
+
+function likePost(id) {
+    const posts = getPosts();
+
+    posts.forEach(post => {
+        if (post.id === id) {
+            post.likedBy = post.likedBy || [];
+            if (!post.likedBy.includes(currentUser.id)) {
+                post.likedBy.push(currentUser.id);
+                post.likes = post.likedBy.length;
+            }
+        }
+    });
+
+    savePosts(posts);
+    displayPosts();
+}
+
+function deletePost(id) {
+    let posts = getPosts();
+    posts = posts.filter(post => post.id !== id);
+    savePosts(posts);
+    displayPosts();
+}
+
+function addComment(postId) {
+    const input = document.getElementById("commentInput-" + postId);
+    const text = input.value.trim();
+
+    if (text === "") {
+        alert("Please enter a comment.");
+        return;
+    }
+
+    const posts = getPosts();
+
+    posts.forEach(post => {
+        if (post.id === postId) {
+            post.comments.push({
+                id: Date.now(),
+                user: currentUser.username,
+                text: text,
+                createdAt: new Date().toISOString()
+            });
+        }
+    });
+
+    savePosts(posts);
+    displayPosts();
+}
