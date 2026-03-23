@@ -20,12 +20,6 @@ function renderFeedInfo() {
     feedInfo.innerHTML = infoHtml;
 }
 
-function getFeedPosts() {
-    const posts = getPosts();
-    const following = currentUser.following || [];
-
-    return posts.filter(post => post.userId === currentUser.id || following.includes(post.userId));
-}
 function createPost() {
     const postContentElement = document.getElementById("postContent");
     const content = postContentElement.value.trim();
@@ -103,6 +97,12 @@ function addComment(postId) {
     displayPosts();
 }
 
+function getFeedPosts() {
+    const posts = getPosts();
+    const following = currentUser.following || [];
+
+    return posts.filter(post => post.userId === currentUser.id || following.includes(post.userId));
+}
 function displayPosts() {
     currentUser = refreshCurrentUser();
     const container = document.getElementById("posts");
