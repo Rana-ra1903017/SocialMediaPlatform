@@ -93,7 +93,8 @@ button:hover{
 .auth-form button,
 .primary-btn,
 .follow-btn,
-.comment-btn{
+.comment-btn,
+.view-btn{
     background:#2563eb;
     color:#ffffff;
 }
@@ -148,27 +149,24 @@ button:hover{
 }
 
 .logout-btn,
-.delete-btn,
 .unfollow-btn{
     color:#ffffff;
 }
 
-.logout-btn,
-.delete-btn{
+.logout-btn{
     background:#ef4444;
 }
 
-.logout-btn:hover,
-.delete-btn:hover{
+.logout-btn:hover{
     background:#dc2626;
 }
 
 .unfollow-btn{
-    background:#f59e0b;
+    background:#6e727a;
 }
 
 .unfollow-btn:hover{
-    background:#d97706;
+    background:#6e727a;
 }
 
 .page-container{
@@ -239,10 +237,16 @@ button:hover{
     margin-bottom:15px;
 }
 
-.like-btn{
+.like-btn,
+.view-btn,
+.delete-btn{
     background:#e0e7ff;
     color:#1d4ed8;
+    display: inline-block;
+    padding: 11px 16px;
+    border-radius: 10px;
 }
+
 
 .comment-section{
     margin-top:14px;
@@ -307,3 +311,29 @@ button:hover{
     margin-bottom:10px;
 }
 
+
+@media (max-width: 900px){
+    .grid-layout{
+        grid-template-columns:1fr;
+    }
+}
+
+@media (max-width: 600px){
+    .topbar{
+        padding:14px 16px;
+    }
+
+    .card,   
+    .sidebar-card,
+    .post{
+        padding:18px;
+    }
+
+    .brand{
+        font-size:20px;
+    }
+
+    .topnav{
+        gap:10px;
+    }
+}
