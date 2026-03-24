@@ -204,6 +204,21 @@ button:hover{
     line-height:1.6;
 }
 
+.info-list,  
+#usersList{
+    margin-top:14px;
+}
+
+.info-item,   
+.user-item{
+    padding:12px 0;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.user-item:last-child,      
+.info-item:last-child{    
+    border-bottom:none;
+}
 .post-header{
     display:flex;
     justify-content:space-between;
