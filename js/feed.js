@@ -10,8 +10,8 @@ function renderFeedInfo() {
     infoHtml += '<div class="info-item"><strong>Following:</strong> ' + followingUsers.length + ' users</div>';
 
     if (followingUsers.length > 0) {
-        infoHtml += '<div class="info-item"><strong>Users you follow:</strong><br>' +
-            followingUsers.map(user => escapeHtml(user.username)).join(", ") +
+        infoHtml += '<div class="info-item"><strong>Users you follow:</strong><br><br>' +
+            followingUsers.map(user => '<span class="follow-tag">' + escapeHtml(user.username) + '</span>').join(" ") +
             '</div>';
     } else {
         infoHtml += '<div class="info-item">You are not following anyone yet. Go to Profile and follow other users.</div>';

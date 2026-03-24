@@ -29,6 +29,50 @@ function unfollowUser(userId) {
     renderProfile();
     renderUsersList();
 }
+function editProfile() {
+    const profileInfo = document.getElementById("profileInfo");
+
+    profileInfo.innerHTML = `
+        <p class="profile-stat">
+            <label for="editUsername"><strong>Username:</strong></label><br>
+            <input type="text" id="editUsername" value="${escapeHtml(currentUser.username)}">
+        </p>
+        <p class="profile-stat">
+            <label for="editEmail"><strong>Email:</strong></label><br>
+            <input type="email" id="editEmail" value="${escapeHtml(currentUser.email)}">
+        </p>
+        <p class="profile-stat">
+            <label for="editBio"><strong>Bio:</strong></label><br>
+            <textarea id="editBio" rows="3" placeholder="Write something about yourself...">${currentUser.bio ? escapeHtml(currentUser.bio) : ""}</textarea>
+        </p>
+        <div class="post-actions">
+            <button class="primary-btn" onclick="saveProfile()">Save Changes</button>
+            <button class="logout-btn" onclick="renderProfile()">Cancel</button>
+        </div>
+    `;
+}
+
+function saveProfile() {
+    const username = document.getElementById("editUsername").value.trim();
+    const email = document.getElementById("editEmail").value.trim().toLowerCase();
+    const bio = document.getElementById("editBio").value.trim();
+
+    if (!username || !email) {
+        alert("Username and Email are required.");
+        return;
+    }
+
+    const users = getUsers();
+    const loggedInUser = users.find(user => user.id === currentUser.id);
+    loggedInUser.username = username;
+    loggedInUser.email = email;
+    loggedInUser.bio = bio;
+
+    saveUsers(users);
+    currentUser = refreshCurrentUser();
+    renderProfile();
+}
+
 function renderProfile() {
     const profileInfo = document.getElementById("profileInfo");
     const posts = getPosts();
@@ -38,9 +82,11 @@ function renderProfile() {
 
     profileInfo.innerHTML = `
         <p class="profile-stat"><strong>Username:</strong> ${escapeHtml(currentUser.username)}</p>
+        <p class="profile-stat"><strong>Bio:</strong> ${currentUser.bio ? escapeHtml(currentUser.bio) : "No bio yet."}</p>
         <p class="profile-stat"><strong>Email:</strong> ${escapeHtml(currentUser.email)}</p>
         <p class="profile-stat"><strong>Total Posts:</strong> ${myPosts.length}</p>
         <p class="profile-stat"><strong>Following:</strong> ${followingUsers.length}</p>
+        <button class="primary-btn" onclick="editProfile()">Edit Profile</button>
     `;
 
     renderMyPosts(myPosts);
@@ -87,11 +133,10 @@ function renderUsersList() {
                         <strong>${escapeHtml(user.username)}</strong><br>
                         <span class="small-text">${escapeHtml(user.email)}</span>
                     </div>
-                    ${
-                        isFollowing
-                            ? `<button class="unfollow-btn" onclick="unfollowUser(${user.id})">Unfollow</button>`
-                            : `<button class="follow-btn" onclick="followUser(${user.id})">Follow</button>`
-                    }
+                    ${isFollowing
+                ? `<button class="unfollow-btn" onclick="unfollowUser(${user.id})">Unfollow</button>`
+                : `<button class="follow-btn" onclick="followUser(${user.id})">Follow</button>`
+            }
                 </div>
             </div>
         `;
