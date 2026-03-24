@@ -29,10 +29,41 @@ function unfollowUser(userId) {
     renderProfile();
     renderUsersList();
 }
+function getProfilePic(user) {
+    return user.profilePic || "images/profile-picture.png";
+}
+
+function handleProfilePic(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        document.getElementById("editPicPreview").src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+function removeProfilePic() {
+    const users = getUsers();
+    const loggedInUser = users.find(user => user.id === currentUser.id);
+    delete loggedInUser.profilePic;
+    saveUsers(users);
+    currentUser = refreshCurrentUser();
+    editProfile();
+}
+
 function editProfile() {
     const profileInfo = document.getElementById("profileInfo");
 
     profileInfo.innerHTML = `
+        <div class="profile-pic-wrapper">
+            <div class="profile-pic-container">
+                <img id="editPicPreview" class="profile-pic" src="${getProfilePic(currentUser)}" alt="Profile Picture">
+                ${currentUser.profilePic ? '<button class="remove-pic-btn" onclick="removeProfilePic()">&times;</button>' : ""}
+            </div>
+            <input type="file" id="editProfilePic" accept="image/*" onchange="handleProfilePic(event)" style="margin-top:8px">
+        </div>
         <p class="profile-stat">
             <label for="editUsername"><strong>Username:</strong></label><br>
             <input type="text" id="editUsername" value="${escapeHtml(currentUser.username)}">
@@ -56,6 +87,7 @@ function saveProfile() {
     const username = document.getElementById("editUsername").value.trim();
     const email = document.getElementById("editEmail").value.trim().toLowerCase();
     const bio = document.getElementById("editBio").value.trim();
+    const picSrc = document.getElementById("editPicPreview").src;
 
     if (!username || !email) {
         alert("Username and Email are required.");
@@ -67,6 +99,10 @@ function saveProfile() {
     loggedInUser.username = username;
     loggedInUser.email = email;
     loggedInUser.bio = bio;
+
+    if (picSrc.startsWith("data:")) {
+        loggedInUser.profilePic = picSrc;
+    }
 
     saveUsers(users);
     currentUser = refreshCurrentUser();
@@ -81,9 +117,12 @@ function renderProfile() {
     const followingUsers = users.filter(user => (currentUser.following || []).includes(user.id));
 
     profileInfo.innerHTML = `
+        <div class="profile-pic-wrapper">
+            <img class="profile-pic" src="${getProfilePic(currentUser)}" alt="Profile Picture">
+        </div>
         <p class="profile-stat"><strong>Username:</strong> ${escapeHtml(currentUser.username)}</p>
-        <p class="profile-stat"><strong>Bio:</strong> ${currentUser.bio ? escapeHtml(currentUser.bio) : "No bio yet."}</p>
         <p class="profile-stat"><strong>Email:</strong> ${escapeHtml(currentUser.email)}</p>
+        <p class="profile-stat"><strong>Bio:</strong> ${currentUser.bio ? escapeHtml(currentUser.bio) : "No bio yet."}</p>
         <p class="profile-stat"><strong>Total Posts:</strong> ${myPosts.length}</p>
         <p class="profile-stat"><strong>Following:</strong> ${followingUsers.length}</p>
         <button class="primary-btn" onclick="editProfile()">Edit Profile</button>
