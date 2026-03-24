@@ -162,18 +162,29 @@ button:hover{
     text-decoration: underline;
 }
 
-.logout-btn{
+.logout-btn,
+.delete-btn,
+.unfollow-btn{
     color:#ffffff;
 }
 
-.logout-btn{
+.logout-btn,
+.delete-btn{
     background:#ef4444;
 }
 
-.logout-btn:hover{
+.logout-btn:hover,
+.delete-btn:hover{
     background:#dc2626;
 }
 
+.unfollow-btn{
+    background:#f59e0b;
+}
+
+.unfollow-btn:hover{
+    background:#d97706;
+}
 
 .page-container{
     width:min(1100px, 92%);
@@ -298,9 +309,24 @@ button:hover{
     text-align:center;
     padding:12px 0;
 }
+.profile-stat{
+    margin-bottom:12px;
+    font-size:16px;
+}
 
+.user-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
 
+.user-meta{
+    line-height:1.5;
+}
 .back-link{
     display:inline-block;
     margin-bottom:10px;
 }
+
