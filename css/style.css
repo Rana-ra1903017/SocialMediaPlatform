@@ -109,13 +109,15 @@ button:hover{
 
 .auth-form button,
 .primary-btn,
+.follow-btn,
 .comment-btn{
     background:#2563eb;
     color:#ffffff;
 }
 
 .primary-btn:hover,
-.comment-btn:hover{
+.comment-btn:hover,
+.follow-btn:hover{
     background:#1d4ed8;
 }
 
