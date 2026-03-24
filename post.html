@@ -5,17 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialHub - Post Details</title>
     <link rel="stylesheet" href="css/style.css">
-    
-</head>
-
-
+ </head>
 <body>
-    
      <header class="topbar">
         <div class="brand">SocialHub</div>
         <nav class="topnav">
             <a href="feed.html">Feed</a>
-            <button class="logout-btn">Logout</button>
+            <a href="profile.html">Profile</a>
+            <button class="logout-btn"  onclick="logout()" >Logout</button>
         </nav>
     </header>
 
@@ -23,8 +20,13 @@
         <section class="card">
             <a href="feed.html" class="back-link">← Back to Feed</a>
             <h2 class="section-title">Post Details</h2>
+            <div id="singlePost"></div>
         </section>
     </main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/post.js"></script>
 
 </body>
 </html>

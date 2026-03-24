@@ -2,16 +2,27 @@ function getUsers() {
     return JSON.parse(localStorage.getItem("users")) || [];
 }
 
+
 function saveUsers(users) {
     localStorage.setItem("users", JSON.stringify(users));
 }
 
-function getCurrentUserData() {
-    return JSON.parse(localStorage.getItem("currentUser"));
-}
+
 function getPosts() {
     return JSON.parse(localStorage.getItem("posts")) || [];
 }
+
+
+function savePosts(posts) {
+    localStorage.setItem("posts", JSON.stringify(posts));
+}
+
+
+function getCurrentUserData() {
+    return JSON.parse(localStorage.getItem("currentUser"));
+}
+
+
 function refreshCurrentUser() {
     const currentUser = getCurrentUserData();
     if (!currentUser) return null;
