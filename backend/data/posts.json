@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "content": "Good morning everyone. I am happy to start this project.",
+    "userId": 1
+  },
+  {
+    "id": 2,
+    "content": "Today I studied Prisma and it is easier than I expected.",
+    "userId": 2
+  },
+  {
+    "id": 3,
+    "content": "Next.js API routes are very useful for simple student projects.",
+    "userId": 3
+  },
+  {
+    "id": 4,
+    "content": "I like building simple social media apps using JavaScript.",
+    "userId": 4
+  },
+  {
+    "id": 5,
+    "content": "This is my first post in the app.",
+    "userId": 5
+  },
+  {
+    "id": 6,
+    "content": "Working on comments and likes now.",
+    "userId": 1
+  },
+  {
+    "id": 7,
+    "content": "Frontend and backend together make the project stronger.",
+    "userId": 2
+  },
+  {
+    "id": 8,
+    "content": "SQLite is simple and good for class projects.",
+    "userId": 3
+  },
+  {
+    "id": 9,
+    "content": "Statistics page is important for phase 2.",
+    "userId": 4
+  },
+  {
+    "id": 10,
+    "content": "I finished follow and unfollow feature.",
+    "userId": 5
+  }
+]
