@@ -1,2 +1,19 @@
-import { NextResponse } from "next/server"; import { prisma } from "../../../lib/prisma";
-export async function POST(request){try{const body=await request.json();const user=await prisma.user.findFirst({where:{email:body.email,password:body.password},select:{id:true,username:true,email:true}});if(!user)return NextResponse.json({message:"Invalid email or password."},{status:400});return NextResponse.json({user});}catch{return NextResponse.json({message:"Login failed."},{status:500});}}
+import { NextResponse } from "next/server";
+import { prisma } from "../../../lib/prisma";
+export async function POST(request) {
+  try {
+    const body = await request.json();
+    const user = await prisma.user.findFirst({
+      where: { email: body.email, password: body.password },
+      select: { id: true, username: true, email: true },
+    });
+    if (!user)
+      return NextResponse.json(
+        { message: "Invalid email or password." },
+        { status: 400 },
+      );
+    return NextResponse.json({ user });
+  } catch {
+    return NextResponse.json({ message: "Login failed." }, { status: 500 });
+  }
+}

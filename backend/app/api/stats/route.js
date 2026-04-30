@@ -1,6 +1,80 @@
-import { NextResponse } from "next/server"; import { prisma } from "../../../lib/prisma";
-export async function GET(){try{const totalUsers=await prisma.user.count();const totalPosts=await prisma.post.count();const totalComments=await prisma.comment.count();const totalLikes=await prisma.like.count();const followersGroups=await prisma.follow.groupBy({by:['followingId'],_count:{followingId:true}});const averageFollowersPerUser=totalUsers===0?0:followersGroups.reduce((s,i)=>s+i._count.followingId,0)/totalUsers;const averagePostsPerUser=totalUsers===0?0:totalPosts/totalUsers;const mostActiveGroup=await prisma.post.groupBy({by:['userId'],_count:{userId:true},orderBy:{_count:{userId:'desc'}},take:1});let mostActiveUser='No data';if(mostActiveGroup.length){const u=await prisma.user.findUnique({where:{id:mostActiveGroup[0].userId},select:{username:true}});mostActiveUser=u?.username||'No data';}const mostFollowedGroup=await prisma.follow.groupBy({by:['followingId'],_count:{followingId:true},orderBy:{_count:{followingId:'desc'}},take:1});let mostFollowedUser='No data';if(mostFollowedGroup.length){const u=await prisma.user.findUnique({where:{id:mostFollowedGroup[0].followingId},select:{username:true}});mostFollowedUser=u?.username||'No data';}const topCommenterGroup=await prisma.comment.groupBy({by:['userId'],_count:{userId:true},orderBy:{_count:{userId:'desc'}},take:1});let topCommenter='No data';if(topCommenterGroup.length){const u=await prisma.user.findUnique({where:{id:topCommenterGroup[0].userId},select:{username:true}});topCommenter=u?.username||'No data';}return NextResponse.json({stats:{totalUsers,totalPosts,totalComments,totalLikes,averageFollowersPerUser:Number(averageFollowersPerUser.toFixed(2)),averagePostsPerUser:Number(averagePostsPerUser.toFixed(2)),mostActiveUser,mostFollowedUser,topCommenter}});}catch{return NextResponse.json({message:'Failed to load statistics.'},{status:500});}}
-
-
-
-
+import { NextResponse } from "next/server";
+import { prisma } from "../../../lib/prisma";
+export async function GET() {
+  try {
+    const totalUsers = await prisma.user.count();
+    const totalPosts = await prisma.post.count();
+    const totalComments = await prisma.comment.count();
+    const totalLikes = await prisma.like.count();
+    const followersGroups = await prisma.follow.groupBy({
+      by: ["followingId"],
+      _count: { followingId: true },
+    });
+    const averageFollowersPerUser =
+      totalUsers === 0
+        ? 0
+        : followersGroups.reduce((s, i) => s + i._count.followingId, 0) /
+          totalUsers;
+    const averagePostsPerUser = totalUsers === 0 ? 0 : totalPosts / totalUsers;
+    const mostActiveGroup = await prisma.post.groupBy({
+      by: ["userId"],
+      _count: { userId: true },
+      orderBy: { _count: { userId: "desc" } },
+      take: 1,
+    });
+    let mostActiveUser = "No data";
+    if (mostActiveGroup.length) {
+      const u = await prisma.user.findUnique({
+        where: { id: mostActiveGroup[0].userId },
+        select: { username: true },
+      });
+      mostActiveUser = u?.username || "No data";
+    }
+    const mostFollowedGroup = await prisma.follow.groupBy({
+      by: ["followingId"],
+      _count: { followingId: true },
+      orderBy: { _count: { followingId: "desc" } },
+      take: 1,
+    });
+    let mostFollowedUser = "No data";
+    if (mostFollowedGroup.length) {
+      const u = await prisma.user.findUnique({
+        where: { id: mostFollowedGroup[0].followingId },
+        select: { username: true },
+      });
+      mostFollowedUser = u?.username || "No data";
+    }
+    const topCommenterGroup = await prisma.comment.groupBy({
+      by: ["userId"],
+      _count: { userId: true },
+      orderBy: { _count: { userId: "desc" } },
+      take: 1,
+    });
+    let topCommenter = "No data";
+    if (topCommenterGroup.length) {
+      const u = await prisma.user.findUnique({
+        where: { id: topCommenterGroup[0].userId },
+        select: { username: true },
+      });
+      topCommenter = u?.username || "No data";
+    }
+    return NextResponse.json({
+      stats: {
+        totalUsers,
+        totalPosts,
+        totalComments,
+        totalLikes,
+        averageFollowersPerUser: Number(averageFollowersPerUser.toFixed(2)),
+        averagePostsPerUser: Number(averagePostsPerUser.toFixed(2)),
+        mostActiveUser,
+        mostFollowedUser,
+        topCommenter,
+      },
+    });
+  } catch {
+    return NextResponse.json(
+      { message: "Failed to load statistics." },
+      { status: 500 },
+    );
+  }
+}
