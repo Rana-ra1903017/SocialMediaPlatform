@@ -48,5 +48,205 @@
     "id": 10,
     "content": "I finished follow and unfollow feature.",
     "userId": 5
+  },
+  {
+    "id": 11,
+    "content": "Just joined the platform. Excited to connect with everyone!",
+    "userId": 6
+  },
+  {
+    "id": 12,
+    "content": "Learning React has been a great experience so far.",
+    "userId": 7
+  },
+  {
+    "id": 13,
+    "content": "Database design is the backbone of any good application.",
+    "userId": 8
+  },
+  {
+    "id": 14,
+    "content": "Finished my first API endpoint today. Feeling proud!",
+    "userId": 9
+  },
+  {
+    "id": 15,
+    "content": "Teamwork makes the dream work.",
+    "userId": 10
+  },
+  {
+    "id": 16,
+    "content": "CSS is harder than I thought but I am getting better.",
+    "userId": 11
+  },
+  {
+    "id": 17,
+    "content": "Reading documentation is a skill every developer needs.",
+    "userId": 12
+  },
+  {
+    "id": 18,
+    "content": "I love how simple SQLite is for small projects.",
+    "userId": 13
+  },
+  {
+    "id": 19,
+    "content": "Debugging is like solving a puzzle. I enjoy it!",
+    "userId": 14
+  },
+  {
+    "id": 20,
+    "content": "Our graduation project is coming together nicely.",
+    "userId": 15
+  },
+  {
+    "id": 21,
+    "content": "Morning coffee and coding. Best combination ever.",
+    "userId": 6
+  },
+  {
+    "id": 22,
+    "content": "Just fixed a bug that took me two hours to find.",
+    "userId": 2
+  },
+  {
+    "id": 23,
+    "content": "Tailwind CSS makes styling so much faster.",
+    "userId": 3
+  },
+  {
+    "id": 24,
+    "content": "I prefer working on backend over frontend.",
+    "userId": 4
+  },
+  {
+    "id": 25,
+    "content": "Version control with Git saved my project today.",
+    "userId": 5
+  },
+  {
+    "id": 26,
+    "content": "Prisma queries are clean and easy to read.",
+    "userId": 6
+  },
+  {
+    "id": 27,
+    "content": "Submitted my assignment on time. What a relief!",
+    "userId": 7
+  },
+  {
+    "id": 28,
+    "content": "Started learning TypeScript. It adds great safety.",
+    "userId": 8
+  },
+  {
+    "id": 29,
+    "content": "The statistics page looks great with real data.",
+    "userId": 9
+  },
+  {
+    "id": 30,
+    "content": "I enjoy reading other people's code to learn new tricks.",
+    "userId": 10
+  },
+  {
+    "id": 31,
+    "content": "Building this social media app taught me a lot.",
+    "userId": 11
+  },
+  {
+    "id": 32,
+    "content": "API testing with Postman is very helpful.",
+    "userId": 12
+  },
+  {
+    "id": 33,
+    "content": "Clean code is better than clever code.",
+    "userId": 13
+  },
+  {
+    "id": 34,
+    "content": "Planning before coding saves a lot of time.",
+    "userId": 14
+  },
+  {
+    "id": 35,
+    "content": "Finally understand how relations work in databases.",
+    "userId": 15
+  },
+  {
+    "id": 36,
+    "content": "Next.js makes full stack development so smooth.",
+    "userId": 6
+  },
+  {
+    "id": 37,
+    "content": "Helped a friend fix her code today. Felt great!",
+    "userId": 2
+  },
+  {
+    "id": 38,
+    "content": "Dark mode should be a default in every app.",
+    "userId": 3
+  },
+  {
+    "id": 39,
+    "content": "Learned about indexes in databases. Very useful for speed.",
+    "userId": 6
+  },
+  {
+    "id": 40,
+    "content": "Writing seed data is actually kind of fun.",
+    "userId": 8
+  },
+  {
+    "id": 41,
+    "content": "Responsive design is a must for modern web apps.",
+    "userId": 10
+  },
+  {
+    "id": 42,
+    "content": "I wish I started learning programming earlier.",
+    "userId": 11
+  },
+  {
+    "id": 43,
+    "content": "Group projects teach you patience and communication.",
+    "userId": 13
+  },
+  {
+    "id": 44,
+    "content": "Just discovered a new VS Code extension. So useful!",
+    "userId": 14
+  },
+  {
+    "id": 45,
+    "content": "Error handling is something I need to improve on.",
+    "userId": 15
+  },
+  {
+    "id": 46,
+    "content": "Presentation day is coming. Need to prepare well.",
+    "userId": 6
+  },
+  {
+    "id": 47,
+    "content": "The follow feature was the hardest part for me.",
+    "userId": 7
+  },
+  {
+    "id": 48,
+    "content": "Completed all the required features for phase two!",
+    "userId": 9
+  },
+  {
+    "id": 49,
+    "content": "Looking forward to feedback from the instructor.",
+    "userId": 4
+  },
+  {
+    "id": 50,
+    "content": "This project made me love web development even more.",
+    "userId": 12
   }
 ]
