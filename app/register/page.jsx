@@ -8,6 +8,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false);
   async function register(e) {
     e.preventDefault();
     setError("");
@@ -21,7 +22,7 @@ export default function RegisterPage() {
       setError(data.message || "Register failed");
       return;
     }
-    router.push("/");
+    setShowModal(true);
   }
   return (
     <main className="auth-wrapper">
@@ -60,6 +61,17 @@ export default function RegisterPage() {
           Already have an account? <Link href="/">Login</Link>
         </p>
       </div>
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <h2>Registration Successful</h2>
+            <p>Your account has been created successfully.</p>
+            <button className="btn primary" onClick={() => router.push("/")}>
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
