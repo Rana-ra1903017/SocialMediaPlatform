@@ -12,6 +12,7 @@ export default function ProfilePage() {
   const [myPosts, setMyPosts] = useState([]);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [bio, setBio] = useState("");
   const [message, setMessage] = useState("");
   useEffect(() => {
     const saved = localStorage.getItem("currentUser");
@@ -39,6 +40,7 @@ export default function ProfilePage() {
     setProfile(p);
     setUsername(p?.username || "");
     setEmail(p?.email || "");
+    setBio(p?.bio || "");
     setUsers(f.users || []);
     setFollowingIds(f.followingIds || []);
     setMyPosts(mp);
@@ -49,7 +51,7 @@ export default function ProfilePage() {
     const res = await fetch("/api/profile", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: currentUser.id, username, email }),
+      body: JSON.stringify({ userId: currentUser.id, username, email, bio }),
     });
     const data = await res.json();
     if (!res.ok) {
@@ -60,6 +62,32 @@ export default function ProfilePage() {
     setCurrentUser(data.user);
     setMessage("Profile updated successfully.");
     loadData(data.user.id);
+  }
+  async function handleAvatarChange(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64 = reader.result;
+      const res = await fetch("/api/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: currentUser.id,
+          username,
+          email,
+          bio,
+          avatar: base64,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem("currentUser", JSON.stringify(data.user));
+        setCurrentUser(data.user);
+        loadData(data.user.id);
+      }
+    };
+    reader.readAsDataURL(file);
   }
   async function toggleFollow(targetId, isFollowing) {
     await fetch("/api/follow", {
@@ -92,29 +120,51 @@ export default function ProfilePage() {
       </header>
       <main className="page grid">
         <section>
-          <section className="card">
+          <section id="user-info" className="card">
             <h2 className="section-title">User Profile</h2>
             {profile && (
-              <>
-                <p>
-                  <strong>Username:</strong> {profile.username}
-                </p>
-                <p>
-                  <strong>Email:</strong> {profile.email}
-                </p>
-                <p>
-                  <strong>Total Posts:</strong> {profile.postsCount}
-                </p>
-                <p>
-                  <strong>Followers:</strong> {profile.followersCount}
-                </p>
-                <p>
-                  <strong>Following:</strong> {profile.followingCount}
-                </p>
-              </>
+              <div className="profile-info">
+                <div className="profile-text">
+                  <p>
+                    <strong>Username:</strong> {profile.username}
+                  </p>
+                  <p>
+                    <strong>bio:</strong>
+                    {profile.bio}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {profile.email}
+                  </p>
+                  <p>
+                    <strong>Total Posts:</strong> {profile.postsCount}
+                  </p>
+                  <p>
+                    <strong>Followers:</strong> {profile.followersCount}
+                  </p>
+                  <p>
+                    <strong>Following:</strong> {profile.followingCount}
+                  </p>
+                </div>
+                <div className="profile-avatar-wrapper">
+                  <img
+                    src={profile.avatar || "/images/profile-picture.png"}
+                    alt="Avatar"
+                    className="profile-avatar"
+                  />
+                  <label className="btn soft avatar-btn">
+                    Change Photo
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleAvatarChange}
+                      hidden
+                    />
+                  </label>
+                </div>
+              </div>
             )}
           </section>
-          <section className="card">
+          <section id="edit-profile" className="card">
             <h2 className="section-title">Edit Profile</h2>
             <form className="form" onSubmit={saveProfile}>
               <input
@@ -128,6 +178,12 @@ export default function ProfilePage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
                 required
+              />
+              <textarea
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                placeholder="Write something about yourself..."
+                rows={3}
               />
               {message && (
                 <p

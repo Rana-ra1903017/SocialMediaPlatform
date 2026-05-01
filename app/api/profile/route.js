@@ -10,6 +10,8 @@ export async function GET(request) {
         id: user.id,
         username: user.username,
         email: user.email,
+        bio: user.bio,
+        avatar: user.avatar,
         postsCount: user._count.posts,
         followersCount: user._count.followers,
         followingCount: user._count.following,
@@ -31,7 +33,12 @@ export async function PUT(request) {
         { message: "This email is already used by another account." },
         { status: 400 },
       );
-    const user = await updateUserProfile(Number(body.userId), body.username, body.email);
+    const user = await updateUserProfile(Number(body.userId), {
+      username: body.username,
+      email: body.email,
+      bio: body.bio,
+      avatar: body.avatar,
+    });
     return NextResponse.json({ user });
   } catch {
     return NextResponse.json(
