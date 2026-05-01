@@ -7,31 +7,26 @@
   },
   {
     "id": 2,
-    "username": "Sara",
-    "email": "sara@gmail.com",
+    "username": "Anoud",
+    "email": "anoud@gmail.com",
     "password": "123456"
   },
   {
     "id": 3,
-    "username": "Omar",
-    "email": "omar@gmail.com",
+    "username": "Nora1",
+    "email": "nora1@gmail.com",
     "password": "123456"
   },
   {
     "id": 4,
-    "username": "Noor",
-    "email": "noor@gmail.com",
+    "username": "Nora2",
+    "email": "nora2@gmail.com",
     "password": "123456"
   },
   {
     "id": 5,
-    "username": "Lara",
-    "email": "lara@gmail.com",
+    "username": "Dana",
+    "email": "dana@gmail.com",
     "password": "123456"
   }
 ]
-
-
-
-
-
