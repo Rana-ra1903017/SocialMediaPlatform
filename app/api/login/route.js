@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
-import { prisma } from "../../../lib/prisma";
+import { findUserByCredentials } from "../../../lib/repository";
 export async function POST(request) {
   try {
     const body = await request.json();
-    const user = await prisma.user.findFirst({
-      where: { email: body.email, password: body.password },
-      select: { id: true, username: true, email: true },
-    });
+    const user = await findUserByCredentials(body.email, body.password);
     if (!user)
       return NextResponse.json(
         { message: "Invalid email or password." },

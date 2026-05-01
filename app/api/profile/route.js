@@ -1,15 +1,10 @@
 import { NextResponse } from "next/server";
-import { prisma } from "../../../lib/prisma";
+import { getUserProfile, findUserByEmail, updateUserProfile } from "../../../lib/repository";
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const userId = Number(searchParams.get("userId"));
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      include: {
-        _count: { select: { posts: true, followers: true, following: true } },
-      },
-    });
+    const user = await getUserProfile(userId);
     return NextResponse.json({
       profile: {
         id: user.id,
@@ -30,19 +25,13 @@ export async function GET(request) {
 export async function PUT(request) {
   try {
     const body = await request.json();
-    const existing = await prisma.user.findUnique({
-      where: { email: body.email },
-    });
+    const existing = await findUserByEmail(body.email);
     if (existing && existing.id !== Number(body.userId))
       return NextResponse.json(
         { message: "This email is already used by another account." },
         { status: 400 },
       );
-    const user = await prisma.user.update({
-      where: { id: Number(body.userId) },
-      data: { username: body.username, email: body.email },
-      select: { id: true, username: true, email: true },
-    });
+    const user = await updateUserProfile(Number(body.userId), body.username, body.email);
     return NextResponse.json({ user });
   } catch {
     return NextResponse.json(

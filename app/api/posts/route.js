@@ -1,13 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "../../../lib/prisma";
-const includeData = {
-  user: { select: { id: true, username: true, email: true } },
-  comments: {
-    include: { user: { select: { id: true, username: true } } },
-    orderBy: { createdAt: "desc" },
-  },
-  likes: { select: { userId: true } },
-};
+import { getPostById, getUserPosts, getFeedPosts, createPost, deletePost, likePost } from "../../../lib/repository";
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -15,35 +7,14 @@ export async function GET(request) {
     const postId = searchParams.get("postId");
     const mode = searchParams.get("mode");
     if (postId) {
-      const post = await prisma.post.findUnique({
-        where: { id: Number(postId) },
-        include: includeData,
-      });
+      const post = await getPostById(Number(postId));
       return NextResponse.json({ post });
     }
     if (mode === "my-posts") {
-      const posts = await prisma.post.findMany({
-        where: { userId },
-        include: includeData,
-        orderBy: { createdAt: "desc" },
-      });
+      const posts = await getUserPosts(userId);
       return NextResponse.json({ posts });
     }
-    const follows = await prisma.follow.findMany({
-      where: { followerId: userId },
-      select: { followingId: true },
-    });
-    const followingIds = follows.map((x) => x.followingId);
-    const posts = await prisma.post.findMany({
-      where: {
-        OR: [
-          { userId },
-          { userId: { in: followingIds.length ? followingIds : [-1] } },
-        ],
-      },
-      include: includeData,
-      orderBy: { createdAt: "desc" },
-    });
+    const posts = await getFeedPosts(userId);
     return NextResponse.json({ posts });
   } catch {
     return NextResponse.json(
@@ -55,9 +26,7 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const body = await request.json();
-    await prisma.post.create({
-      data: { content: body.content, userId: Number(body.userId) },
-    });
+    await createPost(body.content, Number(body.userId));
     return NextResponse.json({ message: "Post created successfully." });
   } catch {
     return NextResponse.json(
@@ -70,13 +39,7 @@ export async function PUT(request) {
   try {
     const body = await request.json();
     if (body.action === "like") {
-      const existing = await prisma.like.findFirst({
-        where: { postId: Number(body.postId), userId: Number(body.userId) },
-      });
-      if (!existing)
-        await prisma.like.create({
-          data: { postId: Number(body.postId), userId: Number(body.userId) },
-        });
+      await likePost(Number(body.postId), Number(body.userId));
     }
     return NextResponse.json({ message: "Updated successfully." });
   } catch {
@@ -89,7 +52,7 @@ export async function PUT(request) {
 export async function DELETE(request) {
   try {
     const body = await request.json();
-    await prisma.post.delete({ where: { id: Number(body.postId) } });
+    await deletePost(Number(body.postId));
     return NextResponse.json({ message: "Post deleted successfully." });
   } catch {
     return NextResponse.json(
