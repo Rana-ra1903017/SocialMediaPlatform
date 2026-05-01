@@ -344,6 +344,9 @@ a {
   color: #4b5563;
   line-height: 1.6;
 }
+.profile-actions {
+  margin-top: 16px;
+}
 
 @media (max-width: 900px) {
 

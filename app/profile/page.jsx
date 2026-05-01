@@ -13,6 +13,7 @@ export default function ProfilePage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
+  const [editing, setEditing] = useState(false);
   const [message, setMessage] = useState("");
   useEffect(() => {
     const saved = localStorage.getItem("currentUser");
@@ -61,7 +62,15 @@ export default function ProfilePage() {
     localStorage.setItem("currentUser", JSON.stringify(data.user));
     setCurrentUser(data.user);
     setMessage("Profile updated successfully.");
+    setEditing(false);
     loadData(data.user.id);
+  }
+  function cancelEdit() {
+    setUsername(profile?.username || "");
+    setEmail(profile?.email || "");
+    setBio(profile?.bio || "");
+    setMessage("");
+    setEditing(false);
   }
   async function handleAvatarChange(e) {
     const file = e.target.files[0];
@@ -123,79 +132,129 @@ export default function ProfilePage() {
           <section id="user-info" className="card">
             <h2 className="section-title">User Profile</h2>
             {profile && (
-              <div className="profile-info">
-                <div className="profile-text">
-                  <p>
-                    <strong>Username:</strong> {profile.username}
-                  </p>
-                  <p>
-                    <strong>bio:</strong>
-                    {profile.bio}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {profile.email}
-                  </p>
-                  <p>
-                    <strong>Total Posts:</strong> {profile.postsCount}
-                  </p>
-                  <p>
-                    <strong>Followers:</strong> {profile.followersCount}
-                  </p>
-                  <p>
-                    <strong>Following:</strong> {profile.followingCount}
-                  </p>
-                </div>
-                <div className="profile-avatar-wrapper">
-                  <img
-                    src={profile.avatar || "/images/profile-picture.png"}
-                    alt="Avatar"
-                    className="profile-avatar"
-                  />
-                  <label className="btn soft avatar-btn">
-                    Change Photo
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleAvatarChange}
-                      hidden
+              <>
+                <div className="profile-info">
+                  <div className="profile-text">
+                    {!editing ? (
+                      <>
+                        <p>
+                          <strong>Username:</strong> {profile.username}
+                        </p>
+
+                        <p>
+                          <strong>Email:</strong> {profile.email}
+                        </p>
+
+                        <p>
+                          <strong>Bio:</strong> {profile.bio}
+                        </p>
+
+                        <p>
+                          <strong>Total Posts:</strong> {profile.postsCount}
+                        </p>
+                        <p>
+                          <strong>Followers:</strong> {profile.followersCount}
+                        </p>
+                        <p>
+                          <strong>Following:</strong> {profile.followingCount}
+                        </p>
+                      </>
+                    ) : (
+                      <form
+                        className="form"
+                        id="edit-form"
+                        onSubmit={saveProfile}
+                      >
+                        <label htmlFor="username">
+                          <strong>Username:</strong>
+                        </label>
+                        <input
+                          id="username"
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
+                          placeholder="Username"
+                          required
+                        />
+                        <label htmlFor="email">
+                          <strong>Email:</strong>
+                        </label>
+                        <input
+                          id="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="Email"
+                          required
+                        />
+                        <label htmlFor="bio">
+                          <strong>Bio:</strong>
+                        </label>
+                        <textarea
+                          id="bio"
+                          value={bio}
+                          onChange={(e) => setBio(e.target.value)}
+                          placeholder="Write something about yourself..."
+                          rows={3}
+                        />
+                        {message && (
+                          <p
+                            className={
+                              message.includes("successfully") ? "ok" : "error"
+                            }
+                          >
+                            {message}
+                          </p>
+                        )}
+                      </form>
+                    )}
+                  </div>
+                  <div className="profile-avatar-wrapper">
+                    <img
+                      src={profile.avatar || "/images/profile-picture.png"}
+                      alt="Avatar"
+                      className="profile-avatar"
                     />
-                  </label>
+                    {editing && (
+                      <label className="btn soft avatar-btn">
+                        Change Photo
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleAvatarChange}
+                          hidden
+                        />
+                      </label>
+                    )}
+                  </div>
                 </div>
-              </div>
+                <div className="profile-actions">
+                  {!editing ? (
+                    <button
+                      className="btn primary"
+                      onClick={() => setEditing(true)}
+                    >
+                      Edit Profile
+                    </button>
+                  ) : (
+                    <div className="actions">
+                      <button
+                        className="btn primary"
+                        type="submit"
+                        form="edit-form"
+                      >
+                        Save Changes
+                      </button>
+                      <button
+                        className="btn warning"
+                        type="button"
+                        onClick={cancelEdit}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </>
             )}
-          </section>
-          <section id="edit-profile" className="card">
-            <h2 className="section-title">Edit Profile</h2>
-            <form className="form" onSubmit={saveProfile}>
-              <input
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
-                required
-              />
-              <input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                required
-              />
-              <textarea
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-                placeholder="Write something about yourself..."
-                rows={3}
-              />
-              {message && (
-                <p
-                  className={message.includes("successfully") ? "ok" : "error"}
-                >
-                  {message}
-                </p>
-              )}
-              <button className="btn primary" type="submit">
-                Save Changes
-              </button>
-            </form>
           </section>
           <section className="card">
             <h2 className="section-title">My Posts</h2>
